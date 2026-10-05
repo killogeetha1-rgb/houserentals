@@ -1,0 +1,2100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RentNest - House Rental Platform</title>
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f7f9fc;
+    color:#172033;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* =========================
+   VARIABLES
+========================= */
+
+:root{
+    --primary:#2563eb;
+    --secondary:#14b8a6;
+    --dark:#172033;
+    --muted:#64748b;
+    --light:#f1f5f9;
+    --white:#ffffff;
+    --border:#e2e8f0;
+    --shadow:0 12px 35px rgba(15,23,42,.10);
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:white;
+    box-shadow:0 3px 18px rgba(0,0,0,.08);
+}
+
+.navbar{
+    max-width:1200px;
+    width:92%;
+    min-height:75px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:var(--primary);
+    font-size:24px;
+    font-weight:800;
+}
+
+.logo-icon{
+    width:45px;
+    height:45px;
+    border-radius:14px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:white;
+    font-size:23px;
+}
+
+nav{
+    display:flex;
+    gap:25px;
+}
+
+nav a{
+    font-weight:600;
+    color:#334155;
+    transition:.2s;
+}
+
+nav a:hover{
+    color:var(--primary);
+}
+
+.nav-buttons{
+    display:flex;
+    gap:8px;
+}
+
+.btn{
+    border:none;
+    padding:11px 18px;
+    border-radius:10px;
+    font-weight:700;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.primary{
+    color:white;
+    background:linear-gradient(90deg,var(--primary),var(--secondary));
+}
+
+.outline{
+    background:white;
+    color:var(--primary);
+    border:1px solid var(--primary);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:620px;
+    display:flex;
+    align-items:center;
+    background:
+    linear-gradient(90deg,rgba(5,15,35,.88),rgba(5,15,35,.45)),
+    url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=85");
+    background-size:cover;
+    background-position:center;
+    color:white;
+}
+
+.hero-content{
+    width:92%;
+    max-width:1200px;
+    margin:auto;
+}
+
+.hero h1{
+    font-size:clamp(40px,6vw,70px);
+    max-width:750px;
+    line-height:1.05;
+    margin:15px 0;
+}
+
+.hero p{
+    max-width:650px;
+    font-size:18px;
+    line-height:1.7;
+    color:#e2e8f0;
+}
+
+.gradient-text{
+    background:linear-gradient(90deg,#60a5fa,#2dd4bf);
+    color:transparent;
+    background-clip:text;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:12px;
+    margin-top:28px;
+}
+
+/* =========================
+   SEARCH BOX
+========================= */
+
+.search-box{
+    max-width:1000px;
+    margin:-55px auto 0;
+    position:relative;
+    z-index:5;
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:var(--shadow);
+}
+
+.search-grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr 1fr 1fr auto;
+    gap:12px;
+}
+
+.search-grid input,
+.search-grid select{
+    padding:13px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    outline:none;
+}
+
+/* =========================
+   GENERAL SECTION
+========================= */
+
+.container{
+    width:92%;
+    max-width:1200px;
+    margin:auto;
+}
+
+.section{
+    padding:80px 0;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.section-title span{
+    color:var(--primary);
+    font-weight:bold;
+    text-transform:uppercase;
+    font-size:13px;
+}
+
+.section-title h2{
+    font-size:40px;
+    margin:10px 0;
+}
+
+.section-title p{
+    color:var(--muted);
+}
+
+/* =========================
+   PROPERTY GRID
+========================= */
+
+.properties{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+}
+
+.property-card{
+    background:white;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 8px 25px rgba(15,23,42,.07);
+    border:1px solid var(--border);
+    transition:.3s;
+}
+
+.property-card:hover{
+    transform:translateY(-7px);
+    box-shadow:var(--shadow);
+}
+
+.property-image{
+    position:relative;
+    height:230px;
+}
+
+.property-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.badge{
+    position:absolute;
+    top:15px;
+    left:15px;
+    background:#16a34a;
+    color:white;
+    padding:7px 11px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.favorite{
+    position:absolute;
+    right:15px;
+    top:15px;
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:50%;
+    background:white;
+    font-size:20px;
+}
+
+.property-info{
+    padding:20px;
+}
+
+.property-info h3{
+    margin-bottom:8px;
+}
+
+.location{
+    color:var(--muted);
+    margin-bottom:15px;
+}
+
+.price{
+    color:var(--primary);
+    font-size:23px;
+    font-weight:800;
+}
+
+.price small{
+    font-size:13px;
+    color:var(--muted);
+    font-weight:normal;
+}
+
+.property-features{
+    display:flex;
+    gap:15px;
+    padding:15px 0;
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+    margin:15px 0;
+    color:#475569;
+    font-size:14px;
+}
+
+.card-actions{
+    display:flex;
+    gap:10px;
+}
+
+.card-actions button{
+    flex:1;
+}
+
+/* =========================
+   WHY US
+========================= */
+
+.why{
+    background:#eff6ff;
+}
+
+.why-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.why-card{
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    text-align:center;
+}
+
+.why-icon{
+    width:60px;
+    height:60px;
+    margin:auto;
+    display:grid;
+    place-items:center;
+    border-radius:16px;
+    background:#dbeafe;
+    font-size:28px;
+    margin-bottom:15px;
+}
+
+.why-card p{
+    color:var(--muted);
+    margin-top:8px;
+    line-height:1.5;
+}
+
+/* =========================
+   PROPERTY DETAIL
+========================= */
+
+#propertyDetails{
+    display:none;
+}
+
+.detail-page{
+    background:white;
+    min-height:100vh;
+    padding:35px 0 80px;
+}
+
+.back-btn{
+    margin-bottom:25px;
+}
+
+.detail-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:35px;
+}
+
+.detail-image{
+    height:500px;
+    border-radius:22px;
+    overflow:hidden;
+}
+
+.detail-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.detail-content h1{
+    font-size:42px;
+    margin:10px 0;
+}
+
+.detail-content .big-price{
+    font-size:30px;
+    color:var(--primary);
+    font-weight:800;
+    margin:20px 0;
+}
+
+.detail-features{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin:25px 0;
+}
+
+.detail-feature{
+    padding:15px;
+    background:#f8fafc;
+    border-radius:10px;
+}
+
+.detail-description{
+    color:var(--muted);
+    line-height:1.7;
+    margin-bottom:25px;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    background:linear-gradient(90deg,var(--primary),var(--secondary));
+    color:white;
+    padding:45px 0;
+}
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    text-align:center;
+}
+
+.stat h2{
+    font-size:35px;
+}
+
+.stat p{
+    margin-top:5px;
+}
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+}
+
+.contact-info{
+    background:#172033;
+    color:white;
+    border-radius:20px;
+    padding:35px;
+}
+
+.contact-info p{
+    color:#cbd5e1;
+    margin:15px 0;
+    line-height:1.6;
+}
+
+.contact-form{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:var(--shadow);
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+.form-group input,
+.form-group textarea{
+    width:100%;
+    padding:13px;
+    border:1px solid var(--border);
+    border-radius:10px;
+}
+
+.form-group textarea{
+    min-height:130px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    background:#071426;
+    color:white;
+    padding:45px 0 20px;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+    gap:30px;
+}
+
+footer p,
+footer a{
+    color:#aebed1;
+    display:block;
+    margin:8px 0;
+}
+
+.copyright{
+    border-top:1px solid #ffffff22;
+    margin-top:30px;
+    padding-top:20px;
+    text-align:center;
+    color:#94a3b8;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    z-index:2000;
+    place-items:center;
+    padding:20px;
+}
+
+.modal.show{
+    display:grid;
+}
+
+.modal-box{
+    width:100%;
+    max-width:450px;
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    position:relative;
+}
+
+.close{
+    position:absolute;
+    right:18px;
+    top:15px;
+    border:none;
+    background:#f1f5f9;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    font-size:20px;
+}
+
+.modal-box h2{
+    margin-bottom:20px;
+}
+
+.modal-box input,
+.modal-box select{
+    width:100%;
+    padding:13px;
+    margin-bottom:12px;
+    border:1px solid var(--border);
+    border-radius:10px;
+}
+
+.modal-box .btn{
+    width:100%;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:#172033;
+    color:white;
+    padding:15px 20px;
+    border-radius:10px;
+    display:none;
+    z-index:3000;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:1000px){
+
+    nav{
+        display:none;
+    }
+
+    .properties{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .why-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .search-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .detail-grid{
+        grid-template-columns:1fr;
+    }
+
+    .contact{
+        grid-template-columns:1fr;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:650px){
+
+    .hero{
+        min-height:600px;
+    }
+
+    .properties,
+    .why-grid,
+    .stats-grid,
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .search-grid{
+        grid-template-columns:1fr;
+    }
+
+    .nav-buttons{
+        display:none;
+    }
+
+    .hero-buttons{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .section-title h2{
+        font-size:30px;
+    }
+
+    .detail-content h1{
+        font-size:32px;
+    }
+
+    .detail-image{
+        height:350px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<header>
+
+<div class="navbar">
+
+<a href="#home" class="logo">
+
+<span class="logo-icon">🏠</span>
+
+<span>
+RentNest
+</span>
+
+</a>
+
+<nav>
+
+<a href="#home">Home</a>
+<a href="#properties">Properties</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+
+</nav>
+
+<div class="nav-buttons">
+
+<button class="btn outline" onclick="openLogin()">
+Login
+</button>
+
+<button class="btn primary" onclick="openRegister()">
+Register
+</button>
+
+</div>
+
+</div>
+
+</header>
+
+
+<!-- =========================
+     HOME
+========================= -->
+
+<section class="hero" id="home">
+
+<div class="hero-content">
+
+<p>🏡 FIND YOUR PERFECT HOME</p>
+
+<h1>
+Find a place
+you'll
+<span class="gradient-text">
+love to live.
+</span>
+</h1>
+
+<p>
+Discover beautiful rental homes, apartments and
+villas in the best locations. Search thousands of
+properties and find your next home easily.
+</p>
+
+<div class="hero-buttons">
+
+<a href="#properties" class="btn primary">
+Explore Properties →
+</a>
+
+<button class="btn outline"
+onclick="openRegister()">
+List Your Property
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     SEARCH
+========================= -->
+
+<div class="search-box">
+
+<div class="search-grid">
+
+<input
+id="searchInput"
+placeholder="Search location or property...">
+
+<select id="typeFilter">
+
+<option value="all">
+Property Type
+</option>
+
+<option value="Apartment">
+Apartment
+</option>
+
+<option value="Villa">
+Villa
+</option>
+
+<option value="House">
+House
+</option>
+
+</select>
+
+<select id="bedFilter">
+
+<option value="all">
+Bedrooms
+</option>
+
+<option value="1">
+1 Bedroom
+</option>
+
+<option value="2">
+2 Bedrooms
+</option>
+
+<option value="3">
+3 Bedrooms
+</option>
+
+<option value="4">
+4+ Bedrooms
+</option>
+
+</select>
+
+<select id="priceFilter">
+
+<option value="all">
+Max Rent
+</option>
+
+<option value="20000">
+₹20,000
+</option>
+
+<option value="30000">
+₹30,000
+</option>
+
+<option value="50000">
+₹50,000
+</option>
+
+<option value="100000">
+₹1,00,000
+</option>
+
+</select>
+
+<button
+class="btn primary"
+onclick="filterProperties()">
+Search
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     PROPERTIES
+========================= -->
+
+<section class="section" id="properties">
+
+<div class="container">
+
+<div class="section-title">
+
+<span>Featured Properties</span>
+
+<h2>
+Find Your
+<span class="gradient-text">
+Dream Home
+</span>
+</h2>
+
+<p>
+Handpicked rental properties in prime locations.
+</p>
+
+</div>
+
+<div class="properties" id="propertyGrid">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     WHY RENTNEST
+========================= -->
+
+<section class="section why" id="about">
+
+<div class="container">
+
+<div class="section-title">
+
+<span>Why RentNest</span>
+
+<h2>
+Rent With
+<span class="gradient-text">
+Confidence
+</span>
+</h2>
+
+</div>
+
+<div class="why-grid">
+
+<div class="why-card">
+
+<div class="why-icon">
+🔎
+</div>
+
+<h3>
+Verified Properties
+</h3>
+
+<p>
+Every property is carefully reviewed
+before being listed.
+</p>
+
+</div>
+
+<div class="why-card">
+
+<div class="why-icon">
+💰
+</div>
+
+<h3>
+Best Prices
+</h3>
+
+<p>
+Compare properties and find rental
+homes that fit your budget.
+</p>
+
+</div>
+
+<div class="why-card">
+
+<div class="why-icon">
+🛡️
+</div>
+
+<h3>
+Secure Renting
+</h3>
+
+<p>
+A simple and transparent rental
+experience.
+</p>
+
+</div>
+
+<div class="why-card">
+
+<div class="why-icon">
+📞
+</div>
+
+<h3>
+24/7 Support
+</h3>
+
+<p>
+Our support team is always available
+to help you.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     STATS
+========================= -->
+
+<section class="stats">
+
+<div class="container stats-grid">
+
+<div class="stat">
+<h2>5,000+</h2>
+<p>Properties</p>
+</div>
+
+<div class="stat">
+<h2>2,500+</h2>
+<p>Happy Renters</p>
+</div>
+
+<div class="stat">
+<h2>850+</h2>
+<p>Property Owners</p>
+</div>
+
+<div class="stat">
+<h2>50+</h2>
+<p>Cities</p>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section class="section" id="contact">
+
+<div class="container">
+
+<div class="section-title">
+
+<span>Contact Us</span>
+
+<h2>
+Let's Find Your
+<span class="gradient-text">
+Next Home
+</span>
+</h2>
+
+</div>
+
+<div class="contact">
+
+<div class="contact-info">
+
+<h2>
+Need Help?
+</h2>
+
+<p>
+Our rental experts can help you find
+the perfect property according to your
+budget and lifestyle.
+</p>
+
+<p>📧 support@rentnest.com</p>
+
+<p>📞 +91 98765 43210</p>
+
+<p>📍 Hyderabad, India</p>
+
+</div>
+
+
+<form class="contact-form"
+onsubmit="sendContact(event)">
+
+<div class="form-group">
+
+<label>
+Your Name
+</label>
+
+<input
+required
+placeholder="Enter your name">
+
+</div>
+
+<div class="form-group">
+
+<label>
+Email
+</label>
+
+<input
+type="email"
+required
+placeholder="Enter email">
+
+</div>
+
+<div class="form-group">
+
+<label>
+Message
+</label>
+
+<textarea
+required
+placeholder="Write your message">
+</textarea>
+
+</div>
+
+<button class="btn primary">
+Send Message
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     PROPERTY DETAILS PAGE
+========================= -->
+
+<section id="propertyDetails">
+
+<div class="detail-page">
+
+<div class="container">
+
+<button
+class="btn outline back-btn"
+onclick="backToProperties()">
+← Back to Properties
+</button>
+
+<div class="detail-grid">
+
+<div class="detail-image">
+
+<img id="detailImage">
+
+</div>
+
+<div class="detail-content">
+
+<span class="badge">
+Available
+</span>
+
+<h1 id="detailTitle"></h1>
+
+<p
+id="detailLocation"
+class="location">
+</p>
+
+<div
+id="detailPrice"
+class="big-price">
+</div>
+
+<div class="detail-features">
+
+<div class="detail-feature">
+🛏 <b id="detailBeds"></b> Bedrooms
+</div>
+
+<div class="detail-feature">
+🚿 <b id="detailBaths"></b> Bathrooms
+</div>
+
+<div class="detail-feature">
+📐 <b id="detailArea"></b>
+</div>
+
+<div class="detail-feature">
+🏠 <b id="detailType"></b>
+</div>
+
+</div>
+
+<p
+id="detailDescription"
+class="detail-description">
+</p>
+
+<button
+class="btn primary"
+onclick="openBooking()">
+Request Viewing
+</button>
+
+<button
+class="btn outline"
+onclick="openRegister()">
+Contact Owner
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+<div class="container">
+
+<div class="footer-grid">
+
+<div>
+
+<h2>
+<span style="color:#2dd4bf">
+RentNest
+</span>
+</h2>
+
+<p>
+Find a place you'll love to live.
+</p>
+
+<p>
+Your trusted house rental platform.
+</p>
+
+</div>
+
+<div>
+
+<h3>
+Explore
+</h3>
+
+<a href="#home">
+Home
+</a>
+
+<a href="#properties">
+Properties
+</a>
+
+<a href="#about">
+About
+</a>
+
+</div>
+
+<div>
+
+<h3>
+Support
+</h3>
+
+<a href="#contact">
+Contact
+</a>
+
+<a href="#">
+Privacy Policy
+</a>
+
+<a href="#">
+Terms
+</a>
+
+</div>
+
+<div>
+
+<h3>
+Contact
+</h3>
+
+<p>
+📧 support@rentnest.com
+</p>
+
+<p>
+📞 +91 98765 43210
+</p>
+
+<p>
+📍 Hyderabad, India
+</p>
+
+</div>
+
+</div>
+
+<div class="copyright">
+
+© 2026 RentNest. All Rights Reserved.
+
+</div>
+
+</div>
+
+</footer>
+
+
+<!-- =========================
+     REGISTER MODAL
+========================= -->
+
+<div class="modal" id="registerModal">
+
+<div class="modal-box">
+
+<button
+class="close"
+onclick="closeModals()">
+×
+</button>
+
+<h2>
+Create Account
+</h2>
+
+<input
+id="registerName"
+placeholder="Full Name">
+
+<input
+id="registerEmail"
+type="email"
+placeholder="Email Address">
+
+<input
+id="registerPhone"
+placeholder="Phone Number">
+
+<select id="registerRole">
+
+<option>
+I am looking for a property
+</option>
+
+<option>
+I want to rent out my property
+</option>
+
+</select>
+
+<button
+class="btn primary"
+onclick="registerUser()">
+
+Register
+
+</button>
+
+<p
+id="registerMessage"
+style="margin-top:15px;color:#16a34a;font-weight:bold;">
+</p>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     LOGIN MODAL
+========================= -->
+
+<div class="modal" id="loginModal">
+
+<div class="modal-box">
+
+<button
+class="close"
+onclick="closeModals()">
+×
+</button>
+
+<h2>
+Welcome Back
+</h2>
+
+<input
+id="loginEmail"
+type="email"
+placeholder="Email Address">
+
+<input
+id="loginPassword"
+type="password"
+placeholder="Password">
+
+<button
+class="btn primary"
+onclick="loginUser()">
+
+Login
+
+</button>
+
+<p
+id="loginMessage"
+style="margin-top:15px;color:#16a34a;font-weight:bold;">
+</p>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     BOOKING MODAL
+========================= -->
+
+<div class="modal" id="bookingModal">
+
+<div class="modal-box">
+
+<button
+class="close"
+onclick="closeModals()">
+×
+</button>
+
+<h2>
+Request Property Viewing
+</h2>
+
+<input
+id="bookingName"
+placeholder="Your Name">
+
+<input
+id="bookingPhone"
+placeholder="Phone Number">
+
+<input
+id="bookingDate"
+type="date">
+
+<select id="bookingTime">
+
+<option>
+Morning
+</option>
+
+<option>
+Afternoon
+</option>
+
+<option>
+Evening
+</option>
+
+</select>
+
+<button
+class="btn primary"
+onclick="submitBooking()">
+
+Request Viewing
+
+</button>
+
+<p
+id="bookingMessage"
+style="margin-top:15px;color:#16a34a;font-weight:bold;">
+</p>
+
+</div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* =========================
+   PROPERTY DATA
+========================= */
+
+const properties = [
+
+{
+id:1,
+title:"Luxury Modern Villa",
+location:"Jubilee Hills, Hyderabad",
+type:"Villa",
+rent:65000,
+beds:4,
+baths:3,
+area:"2,800 sq.ft",
+image:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85",
+description:"A beautiful luxury villa located in the heart of Jubilee Hills. The property features spacious bedrooms, modern interiors, a large kitchen, private parking and a peaceful outdoor area."
+},
+
+{
+id:2,
+title:"Modern City Apartment",
+location:"Hitech City, Hyderabad",
+type:"Apartment",
+rent:28000,
+beds:2,
+baths:2,
+area:"1,250 sq.ft",
+image:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1000&q=85",
+description:"A stylish apartment perfect for working professionals and small families. Close to IT offices, shopping malls, restaurants and public transport."
+},
+
+{
+id:3,
+title:"Family Friendly House",
+location:"Madhapur, Hyderabad",
+type:"House",
+rent:35000,
+beds:3,
+baths:2,
+area:"1,900 sq.ft",
+image:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1000&q=85",
+description:"Spacious family home with excellent natural lighting, three bedrooms, two bathrooms, parking space and a comfortable living area."
+},
+
+{
+id:4,
+title:"Premium Apartment",
+location:"Gachibowli, Hyderabad",
+type:"Apartment",
+rent:42000,
+beds:3,
+baths:2,
+area:"1,650 sq.ft",
+image:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1000&q=85",
+description:"Premium apartment in a modern residential community with security, gym, swimming pool and convenient access to major IT hubs."
+},
+
+{
+id:5,
+title:"Elegant Family Villa",
+location:"Kondapur, Hyderabad",
+type:"Villa",
+rent:55000,
+beds:4,
+baths:3,
+area:"2,400 sq.ft",
+image:"https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=85",
+description:"Elegant four-bedroom villa with contemporary architecture, spacious interiors and a beautiful garden area."
+},
+
+{
+id:6,
+title:"Affordable 1BHK",
+location:"Kukatpally, Hyderabad",
+type:"Apartment",
+rent:15000,
+beds:1,
+baths:1,
+area:"650 sq.ft",
+image:"https://images.unsplash.com/photo-1502672023488-70e25813eb80?auto=format&fit=crop&w=1000&q=85",
+description:"Affordable and comfortable one-bedroom apartment suitable for students and young professionals."
+}
+
+];
+
+
+/* =========================
+   RENDER PROPERTIES
+========================= */
+
+function renderProperties(list=properties){
+
+const grid=document.getElementById("propertyGrid");
+
+if(list.length===0){
+
+grid.innerHTML=`
+
+<div style="
+grid-column:1/-1;
+text-align:center;
+padding:50px;
+background:white;
+border-radius:15px">
+
+<h2>
+No Properties Found
+</h2>
+
+<p style="color:#64748b;margin-top:10px">
+Try changing your search filters.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+grid.innerHTML=list.map(property=>`
+
+<div class="property-card">
+
+<div class="property-image">
+
+<img
+src="${property.image}"
+alt="${property.title}">
+
+<span class="badge">
+For Rent
+</span>
+
+<button
+class="favorite"
+onclick="favoriteProperty(${property.id})">
+
+♡
+</button>
+
+</div>
+
+<div class="property-info">
+
+<h3>
+${property.title}
+</h3>
+
+<p class="location">
+📍 ${property.location}
+</p>
+
+<div class="price">
+₹${property.rent.toLocaleString()}
+<small>/month</small>
+</div>
+
+<div class="property-features">
+
+<span>
+🛏 ${property.beds} Beds
+</span>
+
+<span>
+🚿 ${property.baths} Baths
+</span>
+
+<span>
+📐 ${property.area}
+</span>
+
+</div>
+
+<div class="card-actions">
+
+<button
+class="btn primary"
+onclick="showDetails(${property.id})">
+
+View Details
+
+</button>
+
+<button
+class="btn outline"
+onclick="openBooking()">
+
+Book
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* =========================
+   SEARCH FILTER
+========================= */
+
+function filterProperties(){
+
+const search=
+document.getElementById("searchInput")
+.value
+.toLowerCase();
+
+const type=
+document.getElementById("typeFilter")
+.value;
+
+const beds=
+document.getElementById("bedFilter")
+.value;
+
+const maxPrice=
+document.getElementById("priceFilter")
+.value;
+
+const result=properties.filter(p=>{
+
+const searchMatch=
+p.title.toLowerCase().includes(search) ||
+p.location.toLowerCase().includes(search);
+
+const typeMatch=
+type==="all" || p.type===type;
+
+const bedMatch=
+beds==="all" ||
+(beds==="4" ? p.beds>=4 : p.beds===Number(beds));
+
+const priceMatch=
+maxPrice==="all" ||
+p.rent<=Number(maxPrice);
+
+return searchMatch &&
+typeMatch &&
+bedMatch &&
+priceMatch;
+
+});
+
+renderProperties(result);
+
+document
+.getElementById("properties")
+.scrollIntoView();
+
+}
+
+
+/* =========================
+   PROPERTY DETAILS
+========================= */
+
+function showDetails(id){
+
+const p=
+properties.find(x=>x.id===id);
+
+document.getElementById("detailImage").src=p.image;
+
+document.getElementById("detailTitle").textContent=p.title;
+
+document.getElementById("detailLocation").textContent=
+"📍 "+p.location;
+
+document.getElementById("detailPrice").textContent=
+"₹"+p.rent.toLocaleString()+"/month";
+
+document.getElementById("detailBeds").textContent=p.beds;
+
+document.getElementById("detailBaths").textContent=p.baths;
+
+document.getElementById("detailArea").textContent=p.area;
+
+document.getElementById("detailType").textContent=p.type;
+
+document.getElementById("detailDescription").textContent=
+p.description;
+
+document.getElementById("properties").style.display="none";
+
+document.getElementById("about").style.display="none";
+
+document.getElementById("contact").style.display="none";
+
+document.getElementById("propertyDetails").style.display="block";
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+function backToProperties(){
+
+document.getElementById("propertyDetails").style.display="none";
+
+document.getElementById("properties").style.display="block";
+
+document.getElementById("about").style.display="block";
+
+document.getElementById("contact").style.display="block";
+
+document.getElementById("properties")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+
+/* =========================
+   FAVORITE
+========================= */
+
+function favoriteProperty(id){
+
+let saved=
+JSON.parse(
+localStorage.getItem("favorites") || "[]"
+);
+
+if(saved.includes(id)){
+
+saved=saved.filter(x=>x!==id);
+
+showToast("Removed from favorites");
+
+}else{
+
+saved.push(id);
+
+showToast("❤️ Added to favorites");
+
+}
+
+localStorage.setItem(
+"favorites",
+JSON.stringify(saved)
+);
+
+}
+
+
+/* =========================
+   REGISTER
+========================= */
+
+function openRegister(){
+
+closeModals();
+
+document
+.getElementById("registerModal")
+.classList.add("show");
+
+}
+
+function registerUser(){
+
+const name=
+document.getElementById("registerName").value;
+
+const email=
+document.getElementById("registerEmail").value;
+
+if(!name || !email){
+
+showToast("Please enter your name and email");
+
+return;
+
+}
+
+localStorage.setItem(
+"rentnestUser",
+JSON.stringify({
+name:name,
+email:email
+})
+);
+
+document.getElementById(
+"registerMessage"
+).textContent=
+"✅ Registration successful! Welcome "+name+".";
+
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+function openLogin(){
+
+closeModals();
+
+document
+.getElementById("loginModal")
+.classList.add("show");
+
+}
+
+function loginUser(){
+
+const email=
+document.getElementById("loginEmail").value;
+
+if(!email){
+
+showToast("Please enter your email");
+
+return;
+
+}
+
+document.getElementById(
+"loginMessage"
+).textContent=
+"✅ Login successful! Welcome back.";
+
+}
+
+
+/* =========================
+   BOOKING
+========================= */
+
+function openBooking(){
+
+closeModals();
+
+document
+.getElementById("bookingModal")
+.classList.add("show");
+
+}
+
+function submitBooking(){
+
+const name=
+document.getElementById("bookingName").value;
+
+if(!name){
+
+showToast("Please enter your name");
+
+return;
+
+}
+
+document.getElementById(
+"bookingMessage"
+).textContent=
+"✅ Viewing request submitted successfully!";
+
+}
+
+
+/* =========================
+   CLOSE MODALS
+========================= */
+
+function closeModals(){
+
+document
+.querySelectorAll(".modal")
+.forEach(m=>m.classList.remove("show"));
+
+}
+
+
+/* =========================
+   CONTACT
+========================= */
+
+function sendContact(event){
+
+event.preventDefault();
+
+showToast(
+"✅ Thank you! Your message has been sent."
+);
+
+event.target.reset();
+
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+function showToast(message){
+
+const toast=
+document.getElementById("toast");
+
+toast.textContent=message;
+
+toast.style.display="block";
+
+setTimeout(()=>{
+toast.style.display="none";
+},2500);
+
+}
+
+
+/* =========================
+   INITIAL LOAD
+========================= */
+
+renderProperties();
+
+
+/* =========================
+   NAVIGATION DETAIL RESET
+========================= */
+
+document
+.querySelectorAll("nav a")
+.forEach(link=>{
+
+link.addEventListener("click",()=>{
+
+document.getElementById(
+"propertyDetails"
+).style.display="none";
+
+document.getElementById(
+"properties"
+).style.display="block";
+
+document.getElementById(
+"about"
+).style.display="block";
+
+document.getElementById(
+"contact"
+).style.display="block";
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
